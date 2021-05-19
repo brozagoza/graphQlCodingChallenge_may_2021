@@ -51,4 +51,32 @@ query {
     responseMessage
   }
 }
+
 ```
+
+### Tech Debt
+- Since this was my first time actually building out a GraphQL API, I learned that it may be better to have used
+`GraphQLSchema` instead of `buildSchema`. Mostly used this for the quickness, but later implementations would
+transition to whatever is cleaner.
+- 2 firebase authentications were used since this server-side API was to handle a user's logged in session.
+I performed a hacky way to maintain a session, but this should be handled with a session cookie and that cookie
+should be stored or passed around from the client-side.
+- There's probably a more efficient way to query for messages than my current implementation (adding a 2nd index?).
+Mostly did what I did based off the firebase docs.
+
+### Future Roadmap
+- Build out likes feature.
+- Build out following/followers.
+- Build out messages with multimedia data.
+
+### Pros / Cons
+Pros of my approach:
+- It was quick and moderately clean so that it could fit on the `index.ts` file.
+- Firebase has easy out-of-the-box tools/services that make standing up a service like this "almost prod" ready.
+- Because of Firebase, I'm able to have it run on functions so it can be hit without local setup.
+
+Cons:
+- Firebase is a bit limited in it's services offerings. GCP or AWS would be much better long term.
+- User Sessions not properly handled.
+- Did everything in a single file for readability, but this doesn't scale. Would distribute out constants, util classes,
+APIs, etc. out to their own domain specific folders/files.
